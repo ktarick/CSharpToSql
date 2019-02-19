@@ -19,6 +19,7 @@ namespace CSharpToSql
         public string Email { get; set; }
         public bool IsReviewer { get; set; }
         public bool IsAdmin { get; set; }
+
         private static SqlConnection CreateAndCheckConnection()
         {
             var Connection = new SqlConnection(CONN_STRING);
@@ -46,7 +47,7 @@ namespace CSharpToSql
             sql.Append($"Lastname = '{user.Lastname}',");
             sql.Append($"Phone = '{user.Phone}',");
             sql.Append($"Email = '{user.Email}',");
-            sql.AppendFormat("IsReviewer = {0}", (user.IsReviewer ? 1 : 0)); //using ternary operator
+            sql.AppendFormat("IsReviewer = {0} ,", (user.IsReviewer ? 1 : 0)); //using ternary operator
             sql.AppendFormat("IsAdmin = {0}", (user.IsAdmin ? 1 : 0));
             sql.Append($" Where Id = {user.Id}");
             var cmd = new SqlCommand(sql.ToString(), Connection);
@@ -76,8 +77,7 @@ namespace CSharpToSql
             }
             var isReviewer = user.IsReviewer ? 1 : 0;
             var isAdmin = user.IsAdmin ? 1 : 0;
-            var sql = $"INSERT into users (Username, Password, Firstname, Lastname, Phone, Email, IsReviewer, IsAdmin)"
-           + $"values ('{user.Username}', '{user.Password}', '{user.Firstname}', '{user.Lastname}', '{user.Phone}', '{user.Email}', {isReviewer}, {isAdmin})";
+            var sql = $"INSERT into users (Username, Password, Firstname, Lastname, Phone, Email, IsReviewer, IsAdmin)" + $"values ('{user.Username}', '{user.Password}', '{user.Firstname}', '{user.Lastname}', '{user.Phone}', '{user.Email}', {isReviewer}, {isAdmin})";
             var cmd = new SqlCommand(sql, Connection);
             var recsAffected = cmd.ExecuteNonQuery();
             Connection.Close();
@@ -125,50 +125,36 @@ namespace CSharpToSql
             if (Connection == null)
             {
                 return null;
-            }
-            //open connection
-            Connection.Open();
-            //check if opened worked
-            if(Connection.State != System.Data.ConnectionState.Open)
-            {
-                Console.WriteLine("Connection did not open");
-                return null;
-            }
-            //sqlcommand
-            var sql = "SELECT * from Users;";
-            //sqldatareader object
-            //more refactoring
-            var reader = CheckSqlReaderAndCheck(sql, Connection);
-            var users = new User[100];
+            }            
+            var sql = "SELECT * from Users;"; //sqlcommand          
+            var reader = CheckSqlReaderAndCheck(sql, Connection); //sqldatareader object
+            var users = new List<User>();
             var index = 0;
             while (reader.Read()) //moves pointer to the next vaild row
             {
                 var user = new User();
                 user.Id = (int)reader["Id"]; //should always reurn the column name
                 user.Username = (string)reader["Username"];
+                user.Password = (string)reader["Password"];
                 user.Firstname = (string)reader["Firstname"];
                 user.Lastname = (string)reader["Lastname"];
-                //var fullname = $"{user.Firstname} {user.Lastname}";
-                //var Password = (string)reader["Password"];
                 user.Phone = reader["Phone"] == DBNull.Value ? null : (string)reader["Phone"];
                 user.Email = reader["Email"] == DBNull.Value ? null : (string)reader["Email"];
                 user.IsReviewer = (bool)reader["IsReviewer"];
                 user.IsAdmin = (bool)reader["IsAdmin"];
-                users[index++] = user;
-                //index++;
-                //Console.WriteLine($"Id = {user.Id}, Firstname = {user.Firstname}, Lastname = {user.Lastname}, Password = {Password}, Phone = {user.Phone}, Email = {user.Email}, IsReviewer = {user.IsReviewer}, IsAdmin = {user.IsAdmin}");
+                users.Add(user);                
             }
             //Console.ReadKey();
             //statement to close
             Connection.Close();
-            return users;
+            return users.ToArray();
         }
         //const
         public User()
         { }
         public User(int id, string username, string password, string firstname, string lastname,
                     string phone, string email, bool isReviewewr, bool isAdmin)
-        {       
+        {
             Id = id;
             Username = username;
             Password = password;

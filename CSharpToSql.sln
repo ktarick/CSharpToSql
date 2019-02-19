@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpToSql", "CSharpToSql\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PrsLibrary", "PrsLibrary\PrsLibrary.csproj", "{97588AA6-E456-47D8-B971-A18C10CAC639}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPrsLibrary", "TestPrsLibrary\TestPrsLibrary.csproj", "{61D37DFC-5B64-4376-814C-E074B66697FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{97588AA6-E456-47D8-B971-A18C10CAC639}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{97588AA6-E456-47D8-B971-A18C10CAC639}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{97588AA6-E456-47D8-B971-A18C10CAC639}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D37DFC-5B64-4376-814C-E074B66697FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D37DFC-5B64-4376-814C-E074B66697FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D37DFC-5B64-4376-814C-E074B66697FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D37DFC-5B64-4376-814C-E074B66697FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
